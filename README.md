@@ -2,7 +2,7 @@
 
 A full-featured online marketplace built with Flask where users can register, login, buy, and sell items.
 
-![Marketplace Screenshot](static/images/marketplace-screenshot.png)
+![Marketplace Screenshot](static/images/market.png)
 
 ## Features
 
