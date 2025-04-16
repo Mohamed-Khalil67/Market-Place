@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2>Available Products</h2>
+    </div>
+    <div class="col-md-4">
+        <form action="{{ url_for('products.search') }}" method="GET" class="form-inline">
+            <div class="input-group w-100">
+                <input type="text" name="query" class="form-control" placeholder="Search products...">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Available Items -->
+<div class="row">
+    {% if items.items %}
+        {% for item in items.items %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if item.image_url %}
+                        <img src="{{ url_for('static', filename=item.image_url) }}" class="card-img-top" alt="{{ item.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-image fa-4x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text text-truncate">{{ item.description }}</p>
+                        <p class="card-text"><strong>Price:</strong> ${{ item.price }}</p>
+                        <p class="card-text"><small class="text-muted">Barcode: {{ item.barcode }}</small></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">
+                                More Info
+                            </button>
+                            <form action="{{ url_for('cart.add_to_cart', item_id=item.id) }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button class="btn btn-success btn-sm">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More Info Modal -->
+            <div class="modal fade" id="Modal-MoreInfo-{{ item.id }}" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="ModalLabel">{{ item.name }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            {% if item.image_url %}
+                                <img src="{{ url_for('static', filename=item.image_url) }}" class="img-fluid mb-3" alt="{{ item.name }}">
+                            {% endif %}
+                            <p><strong>Description:</strong> {{ item.description }}</p>
+                            <p><strong>Price:</strong> ${{ item.price }}</p>
+                            <p><strong>Barcode:</strong> {{ item.barcode }}</p>
+                            {% if item.category %}
+                                <p><strong>Category:</strong> {{ item.category.name }}</p>
+                            {% endif %}
+                            <p><strong>Stock:</strong> {{ item.stock }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <form action="{{ url_for('cart.add_to_cart', item_id=item.id) }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <div class="input-group mr-2">
+                                    <input type="number" name="quantity" class="form-control" value="1" min="1" max="{{ item.stock }}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-success">Add to Cart</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                No products available at the moment.
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Pagination -->
+{% if items.pages > 1 %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if items.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('products.product_list', page=items.prev_num) }}">Previous</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+        {% endif %}
+        
+        {% for page_num in items.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+                {% if page_num == items.page %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ page_num }}</span>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('products.product_list', page=page_num) }}">{{ page_num }}</a>
+                    </li>
+                {% endif %}
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            {% endif %}
+        {% endfor %}
+        
+        {% if items.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('products.product_list', page=items.next_num) }}">Next</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">Next</span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+<hr>
+
+<!-- Owned Items -->
+{% if current_user.is_authenticated %}
+    <h2 class="mt-5">Your Products</h2>
+    <div class="row">
+        {% if owned_items.items %}
+            {% for item in owned_items.items %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        {% if item.image_url %}
+                            <img src="{{ url_for('static', filename=item.image_url) }}" class="card-img-top" alt="{{ item.name }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="fas fa-image fa-4x text-muted"></i>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text text-truncate">{{ item.description }}</p>
+                            <p class="card-text"><strong>Price:</strong> ${{ item.price }}</p>
+                            <p class="card-text"><small class="text-muted">Barcode: {{ item.barcode }}</small></p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">
+                                    More Info
+                                </button>
+                                <form action="{{ url_for('products.product_detail', item_id=item.id) }}" method="GET">
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    You don't have any products yet. <a href="{{ url_for('products.add_product') }}">Add a product</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination for owned items -->
+    {% if owned_items.pages > 1 %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if owned_items.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('products.product_list', page=owned_items.prev_num) }}">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                </li>
+            {% endif %}
+            
+            {% for page_num in owned_items.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if page_num == owned_items.page %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page_num }}</span>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('products.product_list', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if owned_items.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('products.product_list', page=owned_items.next_num) }}">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next</span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+{% endif %}
+{% endblock %}

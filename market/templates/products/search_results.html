@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h2>Search Results</h2>
+        {% if query %}
+            <p>Results for: "{{ query }}"</p>
+        {% endif %}
+        {% if selected_category %}
+            {% for category in categories %}
+                {% if category.id|string == selected_category %}
+                    <p>Category: {{ category.name }}</p>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <form action="{{ url_for('products.search') }}" method="GET" class="form-inline">
+            <div class="input-group w-100">
+                <input type="text" name="query" class="form-control" placeholder="Search products..." value="{{ query }}">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Filter by Category</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex flex-wrap">
+                    <a href="{{ url_for('products.search', query=query) }}" class="btn btn-outline-secondary m-1 {% if not selected_category %}active{% endif %}">
+                        All Categories
+                    </a>
+                    {% for category in categories %}
+                        <a href="{{ url_for('products.search', query=query, category=category.id) }}" class="btn btn-outline-secondary m-1 {% if category.id|string == selected_category %}active{% endif %}">
+                            {{ category.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% if items %}
+        {% for item in items %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if item.image_url %}
+                        <img src="{{ url_for('static', filename=item.image_url) }}" class="card-img-top" alt="{{ item.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <i class="fas fa-image fa-4x text-muted"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text text-truncate">{{ item.description }}</p>
+                        <p class="card-text"><strong>Price:</strong> ${{ item.price }}</p>
+                        <p class="card-text"><small class="text-muted">Barcode: {{ item.barcode }}</small></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('products.product_detail', item_id=item.id) }}" class="btn btn-info btn-sm">
+                                More Info
+                            </a>
+                            <form action="{{ url_for('cart.add_to_cart', item_id=item.id) }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="quantity" value="1">
+                                <button class="btn btn-success btn-sm">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                No products found matching your search criteria. <a href="{{ url_for('products.product_list') }}">View all products</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
