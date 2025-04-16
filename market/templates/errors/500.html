@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}500 - Server Error{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <div class="mb-4">
+        <i class="fas fa-exclamation-circle text-danger" style="font-size: 5rem;"></i>
+    </div>
+    <h1 class="display-4">500 - Server Error</h1>
+    <p class="lead">Something went wrong on our end. We're working to fix the issue.</p>
+    <div class="mt-4">
+        <a href="{{ url_for('main.home_page') }}" class="btn btn-primary">
+            <i class="fas fa-home"></i> Return to Home
+        </a>
+        <a href="{{ url_for('products.product_list') }}" class="btn btn-secondary">
+            <i class="fas fa-shopping-cart"></i> Browse Products
+        </a>
+    </div>
+</div>
+{% endblock %}

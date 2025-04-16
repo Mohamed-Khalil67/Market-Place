@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Register</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.csrf_token }}
+                    <div class="form-group">
+                        {{ form.username.label(class="form-control-label") }}
+                        {{ form.username(class="form-control", placeholder="Choose a username") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email_address.label(class="form-control-label") }}
+                        {{ form.email_address(class="form-control", placeholder="Enter your email") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password1.label(class="form-control-label") }}
+                        {{ form.password1(class="form-control", placeholder="Create a password") }}
+                        <small class="form-text text-muted">
+                            Password must contain at least 8 characters, including uppercase, lowercase, number, and special character.
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        {{ form.password2.label(class="form-control-label") }}
+                        {{ form.password2(class="form-control", placeholder="Confirm your password") }}
+                    </div>
+                    <div class="form-group text-center">
+                        {{ form.submit(class="btn btn-primary btn-block") }}
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <p>Already have an account? <a href="{{ url_for('auth.login_page') }}">Login</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

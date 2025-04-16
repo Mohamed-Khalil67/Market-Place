@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Flask Marketplace</h1>
+    <p class="lead">A place to buy and sell products online</p>
+    <hr class="my-4">
+    <p>Browse our products, create an account, and start shopping today!</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('products.product_list') }}" role="button">Browse Products</a>
+    {% if not current_user.is_authenticated %}
+    <a class="btn btn-success btn-lg" href="{{ url_for('auth.register_page') }}" role="button">Register Now</a>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <i class="fas fa-shopping-cart fa-4x mb-3 text-primary"></i>
+                <h5 class="card-title">Shop Online</h5>
+                <p class="card-text">Browse our wide selection of products and find what you need.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <i class="fas fa-tag fa-4x mb-3 text-success"></i>
+                <h5 class="card-title">Sell Your Items</h5>
+                <p class="card-text">List your products and reach customers around the world.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <i class="fas fa-lock fa-4x mb-3 text-danger"></i>
+                <h5 class="card-title">Secure Payments</h5>
+                <p class="card-text">Shop with confidence using our secure payment system.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

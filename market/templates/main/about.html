@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h1>About Flask Marketplace</h1>
+    </div>
+    <div class="card-body">
+        <p class="lead">Flask Marketplace is a full-featured online marketplace built with Flask where users can register, login, buy, and sell items.</p>
+        
+        <h3>Features</h3>
+        <ul>
+            <li><strong>User Authentication</strong>
+                <ul>
+                    <li>Secure registration and login system</li>
+                    <li>Password hashing with Werkzeug</li>
+                    <li>Session management</li>
+                </ul>
+            </li>
+            <li><strong>Marketplace Functionality</strong>
+                <ul>
+                    <li>Browse available items</li>
+                    <li>Post items for sale</li>
+                    <li>Purchase items from other users</li>
+                    <li>User dashboard to manage listings</li>
+                </ul>
+            </li>
+            <li><strong>Shopping Cart</strong>
+                <ul>
+                    <li>Add products to cart</li>
+                    <li>Update quantities</li>
+                    <li>Remove items</li>
+                    <li>Checkout process</li>
+                </ul>
+            </li>
+            <li><strong>Payment Processing</strong>
+                <ul>
+                    <li>Secure payment integration</li>
+                    <li>Order history</li>
+                    <li>Order status tracking</li>
+                </ul>
+            </li>
+            <li><strong>Database</strong>
+                <ul>
+                    <li>SQLAlchemy ORM</li>
+                    <li>SQLite (or PostgreSQL/MySQL ready)</li>
+                    <li>Models for Users, Items, Transactions</li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h3>Technologies Used</h3>
+        <ul>
+            <li><strong>Backend</strong>: Python, Flask</li>
+            <li><strong>Frontend</strong>: HTML5, CSS3, Bootstrap</li>
+            <li><strong>Database</strong>: SQLAlchemy, SQLite</li>
+            <li><strong>Authentication</strong>: Flask-Login</li>
+            <li><strong>Forms</strong>: Flask-WTF</li>
+            <li><strong>Security</strong>: Flask-Talisman, rate limiting</li>
+            <li><strong>Performance</strong>: Flask-Caching, database indexing</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
