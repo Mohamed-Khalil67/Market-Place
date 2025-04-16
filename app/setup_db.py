@@ -6,6 +6,10 @@ import os
 # Create a Flask application with the development configuration
 app = create_app('development')
 
+def is_database_empty():
+    """Check if database is empty or needs initialization"""
+    return Category.query.first() is None
+
 # Define a function to create a sample database with test data
 def create_sample_data():
     # Create categories
@@ -91,7 +95,7 @@ if __name__ == '__main__':
         db.create_all()
         print("Database tables created successfully!")
         
-        # Ask if user wants to create sample data
-        create_sample = input("Do you want to create sample data? (y/n): ")
-        if create_sample.lower() == 'y':
+        if is_database_empty():
             create_sample_data()
+        else:
+            print("Database already contains data. No sample data created.")
