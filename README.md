@@ -70,9 +70,6 @@ flask_marketplace/
 ├── setup_db.py                  # Database initialization
 └── requirements.txt             # Project dependencies
 ```
-
-![Architecture Diagram](https://private-us-east-1.manuscdn.com/sessionFile/sWS825HKJr3x9oXv6L3FEY/sandbox/YuR6nZZ1hnne0Rn85JWbdb-images_1744764163740_na1fn_L2hvbWUvdWJ1bnR1L2ZsYXNrX21hcmtldHBsYWNlX2ltcHJvdmVtZW50cy9kb2N1bWVudGF0aW9uL2FyY2hpdGVjdHVyZV9kaWFncmFt.png?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvc1dTODI1SEtKcjN4OW9YdjZMM0ZFWS9zYW5kYm94L1l1UjZuWloxaG5uZTBSbjg1SldiZGItaW1hZ2VzXzE3NDQ3NjQxNjM3NDBfbmExZm5fTDJodmJXVXZkV0oxYm5SMUwyWnNZWE5yWDIxaGNtdGxkSEJzWVdObFgybHRjSEp2ZG1WdFpXNTBjeTlrYjJOMWJXVnVkR0YwYVc5dUwyRnlZMmhwZEdWamRIVnlaVjlrYVdGbmNtRnQucG5nIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzY3MjI1NjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=L8nk~lMUx8BB4pj1vsRl~NUtizAuh3nXfdU~7yZmXAlGawDXA6hJB6xo2KbUukNNAx2vYxTfsGm0~ekHhFHofWIHlgx3gEEK-wDfX~oCOf~X0Z-2ou8-Ilh8mAKCRnZl6TZ0C6KcCjIUFXlbLUG~ZdQdcUSILid6u~Ys~3L7tMtVzlg0HjkyuIPlGMAugTScYBo4NIuxjflESU20kQQxmdsJThniv8PVfcrB4nK1dPX7wwlMhrvz7f1ODc~5Pnfj90Qk2JqapJY-t7I50QHUeJfIbqpAOlHVasygidSXjmUXLrGHd5Bv53Ec7C0L-eqbWyPJshUJL3ox-xVC5d9yNg__)
-
 ## User Experience
 
 ### User Flow
