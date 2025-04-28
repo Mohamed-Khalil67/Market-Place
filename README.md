@@ -313,9 +313,3 @@ This project demonstrates several important concepts in web development:
 4. **Security Best Practices**: Password hashing, CSRF protection, secure headers
 5. **Payment Processing**: Integration with payment gateways
 6. **Performance Optimization**: Caching, database indexing, query optimization
-
-By studying and extending this project, you can gain valuable experience in building secure, scalable web applications with Flask.
-
----
-
-For more detailed information, please refer to the documentation files in the `documentation` directory.
